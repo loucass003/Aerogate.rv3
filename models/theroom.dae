@@ -9072,37 +9072,37 @@
     </library_effects>
     <library_images>
         <image id="ID9">
-            <init_from>Poele+Supra%20(1)/Brick_Basket_Two.jpg</init_from>
+            <init_from>theroom/Brick_Basket_Two.jpg</init_from>
         </image>
         <image id="ID18">
-            <init_from>Poele+Supra%20(1)/Cladding_Stucco_White.jpg</init_from>
+            <init_from>theroom/Cladding_Stucco_White.jpg</init_from>
         </image>
         <image id="ID35">
-            <init_from>Poele+Supra%20(1)/Roofing_Shingles_GAF_Estates.jpg</init_from>
+            <init_from>theroom/Roofing_Shingles_GAF_Estates.jpg</init_from>
         </image>
         <image id="ID48">
-            <init_from>Poele+Supra%20(1)/_090114114446_planche.jpg</init_from>
+            <init_from>theroom/_090114114446_planche.jpg</init_from>
         </image>
         <image id="ID65">
-            <init_from>Poele+Supra%20(1)/DSC1.JPG</init_from>
+            <init_from>theroom/DSC1.JPG</init_from>
         </image>
         <image id="ID92">
-            <init_from>Poele+Supra%20(1)/Metal_Steel_Textured.jpg</init_from>
+            <init_from>theroom/Metal_Steel_Textured.jpg</init_from>
         </image>
         <image id="ID609">
-            <init_from>Poele+Supra%20(1)/feu.png</init_from>
+            <init_from>theroom/feu.png</init_from>
         </image>
         <image id="ID623">
-            <init_from>Poele+Supra%20(1)/Metal_Rough.jpg</init_from>
+            <init_from>theroom/Metal_Rough.jpg</init_from>
         </image>
         <image id="ID707">
-            <init_from>Poele+Supra%20(1)/inox.jpg</init_from>
+            <init_from>theroom/inox.jpg</init_from>
         </image>
         <image id="ID729">
-            <init_from>Poele+Supra%20(1)/Metal_Seamed.jpg</init_from>
+            <init_from>theroom/Metal_Seamed.jpg</init_from>
         </image>
         <image id="ID1043">
-            <init_from>Poele+Supra%20(1)/DSC02762.JPG</init_from>
+            <init_from>theroom/DSC02762.JPG</init_from>
         </image>
     </library_images>
     <scene>
