@@ -1,12 +1,16 @@
+import * as THREE from 'three'
+
 export default class Position {
 
-    constructor(posX, posY, posZ, dirX, dirY, dirZ) {
-        this.posX = posX;
-        this.posY = posY;
-        this.posZ = posZ;
+    constructor(pos, dir) {
+        this.pos = pos;
+        this.dir = dir;
+    }
 
-        this.dirX = dirX;
-        this.dirY = dirY;
-        this.dirZ = dirZ;
+    static create(posX, posY, posZ, dirX, dirY, dirZ) {
+        return new Position(
+            new THREE.Vector3(posX, posY, posZ),
+            new THREE.Vector3(dirX, dirY, dirZ)
+        )
     }
 }

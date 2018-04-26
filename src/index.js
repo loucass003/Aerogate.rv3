@@ -7,19 +7,20 @@ var ColladaLoader = require('three-collada-loader');
 let camera, scene, renderer;
 let model;
 let theta;
-const p0 = new Position(
+
+const worldAxis = new THREE.AxesHelper(20);
+
+const p0 = Position.create(
 	3.5 * Math.sin(THREE.Math.degToRad(45)),
 	0.8,
 	3.5 * Math.sin(THREE.Math.degToRad(45)),
-	0, THREE.Math.degToRad(45), 0);
+	0.3, 0.0, -0.7);
 
-const p1 = new Position(
-	20.5 * Math.sin(THREE.Math.degToRad(45)),
-	2.8,
-	9.5 * Math.sin(THREE.Math.degToRad(45)),
-	THREE.Math.degToRad(90), THREE.Math.degToRad(45),  0);
-
-const m = new THREE.Matrix4();
+const p1 = Position.create(
+	-1.5 * Math.sin(THREE.Math.degToRad(45)),
+    2.8,
+    20.5 * Math.sin(THREE.Math.degToRad(45)),
+	6, 0.7, -0.3);
 
 init();
 animate();
@@ -31,84 +32,62 @@ loader.load(
 	(model) => {
 		scene.add(model = model.scene);
 		model.rotation.x = THREE.Math.degToRad(-90);
+		model.position.set(-0.315, 0.014, 0.72);
 	},
 );
 
-window.addEventListener( 'resize', onWindowResize, false );
+window.addEventListener('resize', onWindowResize, false);
 
 
 function init() {
+	camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 100);
+	scene = new THREE.Scene();
 
-	camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 1000 );
-	
-	//camera.position.set(2,0,10);
-	//camera.updateProjectionMatrix();
+	const ambientLight = new THREE.AmbientLight(0xcccccc, 0.4);
+	const pointLight = new THREE.PointLight(0xffffff, 0.8);
+
 	theta = 0.0;
 
-	scene = new THREE.Scene();
-	var ambientLight = new THREE.AmbientLight( 0xcccccc, 0.4 );
-	scene.add( ambientLight );
-	var pointLight = new THREE.PointLight( 0xffffff, 0.8 );
 	camera.add(pointLight);
-	scene.add( camera );
+	scene.add(ambientLight);
+	scene.add(camera);
+	scene.add(worldAxis);
 
-	renderer = new THREE.WebGLRenderer( { antialias: true } );
-	renderer.setSize( window.innerWidth, window.innerHeight );
-	document.body.appendChild( renderer.domElement );
-
+	renderer = new THREE.WebGLRenderer({ antialias: true });
+	renderer.setSize(window.innerWidth, window.innerHeight);
+	document.body.appendChild(renderer.domElement);
 }
 
 
 function animate() {
 	let t = (Math.sin(theta) + 1) / 2;
 
-	var a = new THREE.Euler(
-		p0.dirX *(1 - t) + p1.dirX * t, 
-		p0.dirY *(1 - t) + p1.dirY * t,
-		p0.dirZ *(1 - t) + p1.dirZ * t, 
-		'XYZ' 
-	);
+	let p = Position.create(
+		p0.pos.x *(1 - t) + p1.pos.x * t,
+		p0.pos.y *(1 - t) + p1.pos.y * t,
+		p0.pos.z *(1 - t) + p1.pos.z * t,
+		p0.dir.x *(1 - t) + p1.dir.x * t,
+		p0.dir.y *(1 - t) + p1.dir.y * t,
+		p0.dir.z *(1 - t) + p1.dir.z * t,
+	);/*new Position(
+		p0.pos.clone().multiply(1 - t).add(p1.pos.clone().multiply(t)),
+		p0.dir.clone().multiply(1 - t).add(p1.dir.clone().multiply(t)),
+	)*/
 
-	let m0 = m.clone().makeRotationFromEuler(a);
-
-	let v4 = new THREE.Vector3(0,0,0).normalize().applyMatrix4(m0)
-
-	console.log(v4);
-	let p = new Position(
-		p0.posX *(1 - t) + p1.posX * t,
-		p0.posY *(1 - t) + p1.posY * t,
-		p0.posZ *(1 - t) + p1.posZ * t,
-		v4.x,
-		v4.y,
-		v4.z
-	);
-
-
-	camera.rotation.x = 0;
-	camera.rotation.y = 0;
-	camera.rotation.z = 0;
-	//camera.updateProjectionMatrix();
-
-	camera.position.x = 0.3  + p.posX;
-	camera.position.y = 0.0  + p.posY;
-	camera.position.z = -0.7 + p.posZ;
+	camera.position.set(0.3, 0, -0.7).add(p.pos)
 	camera.updateProjectionMatrix();
 	
-	//camera.lookAt(dir);
-	camera.rotation.x = p.dirX;
-	camera.rotation.y = p.dirY;
-	camera.rotation.z = p.dirZ;
-	console.log("rot", camera.rotation);
+	camera.lookAt(p.dir);
 	camera.updateProjectionMatrix();
 
 	theta += 0.02;
 
-	renderer.render( scene, camera );
-	requestAnimationFrame( animate );
+	renderer.render(scene, camera);
+	requestAnimationFrame(animate);
 }
 
 function onWindowResize(){
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
-    renderer.setSize( window.innerWidth, window.innerHeight );
+    renderer.setSize(window.innerWidth, window.innerHeight);
 }
