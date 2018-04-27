@@ -1,6 +1,11 @@
-import * as THREE from 'three'
-import 'impress.js';
-import Position from './Position.js';
+import Slider from './Slider';
+
+const slider = new Slider();
+
+slider.init();
+
+//import * as THREE from 'three'
+/*import Position from './Position.js';
 
 var ColladaLoader = require('three-collada-loader');
 
@@ -17,12 +22,12 @@ const p0 = Position.create(
 	0.3, 0.0, -0.7);
 
 const p1 = Position.create(
-	-1.5 * Math.sin(THREE.Math.degToRad(45)),
-    2.8,
-    20.5 * Math.sin(THREE.Math.degToRad(45)),
-	6, 0.7, -0.3);
-
-init();
+	2,
+    0.8,
+    3.5,
+	1.5, 2, -0.7);
+*/
+/*init();
 animate();
 
 const loader = new ColladaLoader();
@@ -37,7 +42,8 @@ loader.load(
 );
 
 window.addEventListener('resize', onWindowResize, false);
-
+document.addEventListener('keydown', keydown)
+document.addEventListener('mousedown', mousedown);
 
 function init() {
 	camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 100);
@@ -54,8 +60,8 @@ function init() {
 	scene.add(worldAxis);
 
 	renderer = new THREE.WebGLRenderer({ antialias: true });
-	renderer.setSize(window.innerWidth, window.innerHeight);
 	document.body.appendChild(renderer.domElement);
+	renderer.setSize(renderer.domElement.clientWidth,  renderer.domElement.clientHeight);
 }
 
 
@@ -74,7 +80,9 @@ function animate() {
 		p0.dir.clone().multiply(1 - t).add(p1.dir.clone().multiply(t)),
 	)*/
 
-	camera.position.set(0.3, 0, -0.7).add(p.pos)
+	/*p = p1;
+
+	camera.position.set(0, 0, 0).add(p.pos)
 	camera.updateProjectionMatrix();
 	
 	camera.lookAt(p.dir);
@@ -91,3 +99,27 @@ function onWindowResize(){
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
 }
+
+function keydown({ key }) {
+	switch(key) {
+		case ' ': {
+			alert("space");
+			break;
+		}
+	}
+}
+
+function mousedown({ buttons }) {
+	switch(buttons) {
+		case 1: {
+			alert('left');
+			break;
+		}
+		case 2: {
+			alert('right');
+			break;
+		}
+	}
+}
+
+*/

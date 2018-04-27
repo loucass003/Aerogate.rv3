@@ -5,11 +5,32 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Aerogate rv3</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-   
+    <link href="css/slider.css" rel="stylesheet"> 
 </head>
 <body>
-    <div></div>
+    <div class="load-overlay" id="loader">
+        <div class="loading-bar"></div>
+        <div class="loading-bar"></div>
+        <div class="loading-bar"></div>
+        <div class="loading-bar"></div>
+
+        <div id="loading-text">Loading "XX": XX%</div>
+    </div>
+    <div id="ressources">
+        <ressource src="models/theroom.dae" loader="collada" data-name="theroom"></ressource>
+    </div>
+    <div id="slider" camera="5.5;0.8;5.5|3.5;0.8;3.5">
+        <model data-name="theroom" data-pos="-0.315;0.014;0.72|-90;0;0"></model>
+        <model data-name="theroom" data-pos="3;0.014;0.72|-90;0;0"></model>
+        <div class="step" data-name="slide1" data-pos="0.1;0.2;0.3">
+            <div class="step" data-name="substep1" data-pos="0.1;0.2;0.3">
+                
+            </div>
+        </div>
+        <div class="step" data-name="slide2" data-pos="0.1;0.2;0.3">
+            
+        </div>
+    </div>
     <script src="/build/bundle.js"></script>
 </body>
-
 </html>
