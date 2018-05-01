@@ -1,8 +1,10 @@
 class Step {
 
-    constructor(name, pos) {
+    constructor(name, pos, cameras, duration) {
         this.name = name;
         this.pos = pos;
+        this.cameras = cameras;
+        this.duration = duration;
         this.step = -1;
     }
 

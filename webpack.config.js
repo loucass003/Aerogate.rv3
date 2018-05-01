@@ -1,8 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
-const devFlag = new webpack.DefinePlugin({
-	__DEV__: JSON.stringify(JSON.parse(process.env.BUILD_DEV || 'true'))
-});
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const config = {
 	mode: 'development',
@@ -11,14 +9,20 @@ const config = {
 	},
 	devServer: {
 		host: '0.0.0.0',
-		port: 3001
+		port: 3001,
+		hot: true
 	},
 	output: {
 		path: path.join(__dirname, "build"),
 		publicPath: '/build/',
 		filename: 'bundle.js'
 	},
-	plugins: [devFlag],
+	plugins: [
+		new webpack.HotModuleReplacementPlugin(),
+		new HtmlWebpackPlugin({
+			template: path.resolve(__dirname, 'index.html')
+		})
+	],
 	module: {
 		rules: [{
 			test: /\.css$/,
@@ -27,6 +31,9 @@ const config = {
 				"css-loader",
 				"autoprefixer-loader?browsers=last 2 version"
 			]
+		},{
+			test: /\.html$/,
+			loader: "raw-loader" // loaders: ['raw-loader'] is also perfectly acceptable.
 		}]
 	}
 };
