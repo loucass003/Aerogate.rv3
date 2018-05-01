@@ -62,8 +62,8 @@ class Slider {
                 'data-name': { value: name },
                 'data-pos': { value: pos },
             }
-        }) => new Step(name, pos, parseCameras(camera), duration));
-        
+        }, i) => new Step(steps[i], name, pos, parseCameras(camera), duration));
+
         this.animator = new Animator(this);
 
         const firstSlide = this.steps[0];
@@ -78,10 +78,14 @@ class Slider {
     }
 
     nextSlide() {
-        this.step++;
-        if(this.step == this.steps.length)
-            this.step = 0;
-        const { cameras, duration, fallback } = this.steps[this.step];
+        const currStep = this.steps[this.step];
+        let nextStep;
+        if(currStep.hasNextStep())
+            nextStep = currStep.nextStep();
+        else if (++this.step == this.steps.length)
+                this.step = 0;
+        const { cameras, duration, fallback, name } = nextStep || this.steps[this.step];
+        console.log(name);
         this.animator.animate([this.camPos, ...cameras], duration);
     }
     

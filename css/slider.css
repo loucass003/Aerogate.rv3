@@ -8,6 +8,10 @@ canvas {
     display: block; 
 }
 
+.step, .substep {
+    display: none;
+}
+
 .load-overlay {
     position: absolute;
     top: 50%;
