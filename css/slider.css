@@ -1,5 +1,10 @@
 body {
     margin: 0;
+    background-color: black
+}
+
+* {
+    opacity: inherit
 }
 
 canvas {
@@ -8,8 +13,23 @@ canvas {
     display: block; 
 }
 
-.step, .substep {
+.step {
     display: none;
+}
+
+h1, p {
+    text-shadow: 1px 1px 2px black;
+   
+}
+
+content {
+    color: white;
+    font-size: 24px;
+    transition: 1s all;
+}
+
+substep {
+    opacity: 0;
 }
 
 .load-overlay {
@@ -63,4 +83,28 @@ canvas {
     40% {
         transform: scale(1);
     }
+}
+
+.wrap {
+    position: absolute;
+    width: 397px;
+    height: 158px;
+    padding: 0;
+    overflow: hidden;
+}
+.frame {
+    width: 1350px;
+    height: 786px;
+    border: 0;
+    -ms-transform: scale(0.25);
+    -moz-transform: scale(0.25);
+    -o-transform: scale(0.25);
+    -webkit-transform: scale(0.25);
+    transform: scale(0.25);
+    
+    -ms-transform-origin: 0 0;
+    -moz-transform-origin: 0 0;
+    -o-transform-origin: 0 0;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
 }

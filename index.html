@@ -17,31 +17,55 @@
         <div id="loading-text">Loading "XX": XX%</div>
     </div>
     <div id="ressources">
-        <ressource src="models/theroom.dae" loader="collada" data-name="theroom"></ressource>
+        <ressource src="models/House+interior.dae" loader="collada" data-name="theroom"></ressource>
     </div>
-    <div id="slider" camera="3.5;2;5.5@3.5;0.8;3.5">
-        <model id="theroom1" data-name="theroom" data-pos="-0.315;0.014;0.72@-90;0;0"></model>
-        <model id="theroom2" data-name="theroom" data-pos="3;0.014;0.72@-90;0;0"></model>
+    <div id="slider" camera="3.5;2;5.5@3.5;0.8;3.5" css-scale="0.1;0.1;0.1">
+        <model id="theroom1" data-name="theroom" data-pos="0;0;0@-90;0;-180" scale="100;100;100"></model>
+        <div 
+            class="step"
+            data-name="slide1" 
+            data-pos="650;200;220@0;-90;0"
+            camera="
+                600;200;200@1000;100;400
+            "
+            duration="1000">
+            <content>
+                <substep duration="500" persistent="true">
+                    <h1>Aerogate</h1>
+                </substep>
+                <substep duration="500" persistent="false">
+                    <p>Grille d'aeration autogérée pour poêle a bois</p>
+                </substep>
+            </content>
+        </div>
         <div 
             class="step" 
-            data-name="slide1" 
-            data-pos="0.1;0.2;0.3" 
+            data-name="slide2" 
+            data-pos="920;120;400@0;90;0"
             camera="
-                2.5;0.8;4.5@0.0;0.8;0.0
-                |2.5;0.8;2.5@0.0;0.8;0.0
-                |4.5;0.8;2.5@0.0;0.8;3.0
+                920;120;350@920;0;600
             "
-            duration="3000">
-            Plop
-            <div class="substep" data-name="substep1" data-pos="0.1;0.2;0.3" camera="4;0.8;4@3.5;0.8;3.5" duration="1000">
-                toto
-                <div class="substep" data-name="substep2" data-pos="0.1;0.2;0.3" camera="4;0.8;4@3.5;0.8;3.5" duration="1000">
-                tata
-                </div>
-            </div>
+            duration="1000">
+            <content>
+                <substep duration="500">
+                    <h1>Aerogate</h1>
+                </substep>
+            </content>
         </div>
-        <div class="step" data-name="slide2"  data-pos="0.1;0.2;0.3" camera="3.5;1;5.5@0.0;0.8;0.0" duration="1000">
-            
+        <div 
+            class="step" 
+            data-name="slide3" 
+            data-pos="520;170;125@0;90;0" 
+            camera="
+                650;180;200@0;50;-100
+            "
+            duration="2000"
+            persistent="true">
+            <content>
+                <div class="wrap">
+                    <iframe class="frame" src="http://time.is"></iframe>
+                </div>
+            </content>
         </div>
     </div>
     <script src="/build/bundle.js"></script>

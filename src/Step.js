@@ -1,49 +1,85 @@
+import * as THREE from 'three'
+import { Tween, Easing, Interpolation } from 'es6-tween';
+import 'es6tween-plugin-render';
 import { parseCameras } from './Utils.js';
+import { CSS3DObject } from 'three-renderer-css3d';
 
 class Step {
 
-    constructor(elem, name, pos, cameras, duration) {
+    constructor(elem, name, pos, cameras, duration, persistent) {
         this.elem = elem;
         this.name = name;
         this.pos = pos;
         this.cameras = cameras;
         this.duration = duration;
-        this.step = -1;
+        this.persistent = persistent;
 
-        const steps = elem.getElementsByClassName("substep");
-        this.steps = Array.from(steps).map(({
-            attributes: {
-                camera: { value: camera } = { camera: { value: null } },
-                duration: { value: duration } = { duration: { value: null } },
-                'data-name': { value: name },
-                'data-pos': { value: pos },
+        const content = Array.from(elem.children).filter(({ localName }) => localName === 'content');
+        if(content && content[0]) {
+            this.object = new CSS3DObject(content[0]);
+            this.object.position.set(0,0,0).add(this.pos.pos)
+            this.object.rotation.setFromVector3(this.pos.dir)
+
+            this.step = -1;
+
+            this.substeps = Array.from(content[0].children)
+                .filter(({ localName }) => localName === 'substep')
+                .map(elem => ({ elem, showStep: this.showStep.bind(this), hideStep: this.hideStep.bind(this) }))
+        }
+    }
+
+    hasNextSubstep() {
+        return this.substeps && this.substeps[this.step + 1];
+    }
+
+    nextSubstep() {
+        return this.hasNextSubstep() && this.substeps[this.step + 1];
+    }
+
+    clear(skip) {
+        this.step = -1;
+        return new Promise(resolve => 
+            Promise.all(
+                this.substeps.map(({ elem }) => this.hideStep(elem, skip))
+            ).then(values => resolve(values))
+        );
+    }
+
+    showStep(elem, skip) {
+        if(!elem)
+            elem = this.substeps[this.step].elem;
+        return new Promise((resolve) => {
+            if(skip) {
+                elem.style.opacity = 1;
+                resolve();
+                return;
             }
-        }, i) => new Step(steps[i], name, pos, parseCameras(camera), duration));
+
+            const duration = Number(elem.attributes.duration.value);
+            const tween = new Tween(elem, { opacity: 0 })
+                .to({ opacity: 1 }, duration)
+                .on('complete', resolve)
+                .start();
+        })
     }
 
-    hasSteps() {
-        return this.steps && this.steps.length > 0;
-    }
+    hideStep(elem, skip) {
+        if(!elem)
+            elem = this.substeps[this.step].elem;
+        return new Promise((resolve) => {
+            if(skip) {
+                elem.style.opacity = 0;
+                resolve();
+                return;
+            }
 
-    hasNextStep() {
-        if(this.hasSteps && !!this.steps[this.step + 1])
-            return true;
-        this.step = -1;
-        return false;
-    }
-
-    nextStep() {
-        console.log('step', this.step);
-        const currStep = this.steps[this.step];
-        if(currStep && currStep.hasNextStep())
-            return currStep.nextStep();
-        else if (++this.step == this.steps.length)
-            this.step = 0;
-        return this.steps[this.step];
-    }
-
-    currentStep() {
-        return this.steps[this.step];
+            const duration = Number(elem.attributes.duration.value);
+            const tween = new Tween(elem, { opacity: 1 })
+                .to({ opacity: 0 }, duration)
+                .on('complete', resolve)
+                .start();
+        })
+        
     }
 }
 
