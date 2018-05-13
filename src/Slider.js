@@ -41,16 +41,14 @@ class Slider {
         this.ambientLight = new THREE.AmbientLight(0xcccccc, 0.4);
         this.pointLight = new THREE.PointLight(0xffffff, 0.7);
         
-        this.worldAxis = new THREE.AxesHelper(200);
+       
 
         this.camera.add(this.pointLight);
         this.scene.add(this.ambientLight);
         this.scene.add(this.camera);
-        this.scene.add(this.worldAxis);
 
         const slider = document.getElementById('slider')
         const modelsElems = slider.getElementsByTagName('model');
-        console.log(modelsElems, this.loader.model('theroom'));
         this.globalModels = Array.from(modelsElems).map(({
             attributes: {
                 'data-name': { value: name },
@@ -74,8 +72,15 @@ class Slider {
 
         this.cssScale = parseScale(slider.attributes['css-scale'].value);
 
-        const steps = slider.getElementsByClassName("step");
+        this.loadSkyBox();
 
+        if(slider.attributes.axis && slider.attributes.axis.value == 'true') {
+            this.worldAxis = new THREE.AxesHelper(200);
+            this.scene.add(this.worldAxis);
+        }
+
+        
+        const steps = slider.getElementsByClassName("step");
         this.step = 0;
         this.steps = Array.from(steps).map(({
             attributes: {
@@ -109,6 +114,7 @@ class Slider {
             }
         }
 
+       
         if(!firstSlide.persistent)
             this.cssScene.add(firstSlide.object)
         this.animator.animate([this.camPos, ...firstSlide.cameras], firstSlide.duration);
@@ -123,10 +129,44 @@ class Slider {
         requestAnimationFrame(this.render.bind(this));
     }
 
+
+    loadSkyBox() {
+        const skyboxElem = document.getElementsByTagName('skybox')[0];
+        const path = skyboxElem.attributes.path.value.replace(/\/?(\?|#|$)/, '/$1');
+        const format = `.${skyboxElem.attributes.format.value}`;
+        const urls = [
+            path + 'right' + format,
+            path + 'left' + format,
+            path + 'top' + format,
+            path + 'bottom' + format,
+            path + 'back' + format,
+            path + 'front' + format
+        ];
+
+        const reflectionCube = THREE.ImageUtils.loadTextureCube(urls);
+        reflectionCube.format = THREE.RGBFormat;
+
+        const shader = THREE.ShaderLib[ "cube" ];
+        shader.uniforms[ "tCube" ].value = reflectionCube;
+
+        const material = new THREE.ShaderMaterial( {
+            fragmentShader: shader.fragmentShader,
+            vertexShader: shader.vertexShader,
+            uniforms: shader.uniforms,
+            depthWrite: false,
+            side: THREE.BackSide
+        });
+
+        const mesh = new THREE.Mesh(new THREE.BoxGeometry(100, 100, 100), material);
+        mesh.scale.multiply(parseScale(skyboxElem.attributes.scale.value))
+        this.scene.add(mesh);
+    }
+
     nextSlide(skipAnimation) {
         const curr = this.steps[this.step];
         const substepLeaveEvent = new CustomEvent('slider.substep.leave', {
             detail: {
+                inst: this,
                 slide: curr,
                 substep: curr.step !== -1 && curr.substeps[curr.step]
             },
@@ -138,6 +178,7 @@ class Slider {
             const next = curr.nextSubstep()
             const substepEnterEvent = new CustomEvent('slider.substep.enter', {
                 detail: {
+                    inst: this,
                     slide: curr,
                     substep: next
                 },
@@ -157,8 +198,8 @@ class Slider {
             if(this.step == this.steps.length)
                 this.step = 0;
 
-            const enterEvent = new CustomEvent('slider.slide.enter', {
-                detail: {slide: this.steps[this.step] },
+            const enterEvent = new CustomEvent('slider.step.enter', {
+                detail: {slide: this.steps[this.step], inst: this },
                 bubbles: true,
                 cancelable: true,
             })
@@ -170,7 +211,7 @@ class Slider {
                 this.cssScene.add(object)
                 this.animator.animate([this.camPos, ...cameras], duration, skipAnimation)
 
-                const leaveEvent = new CustomEvent('slider.slide.leave', {
+                const leaveEvent = new CustomEvent('slider.step.leave', {
                     detail: { slide: curr },
                     bubbles: true,
                     cancelable: false,
@@ -193,8 +234,9 @@ class Slider {
         if(this.step == -1)
             this.step = this.steps.length - 1;
 
-        const enterEvent = new CustomEvent('slider.slide.enter', {
+        const enterEvent = new CustomEvent('slider.step.enter', {
             detail: {
+                inst: this,
                 slide: this.steps[this.step]
             },
             bubbles: true,
@@ -209,8 +251,8 @@ class Slider {
             cameras.reverse();
             this.animator.animate([this.camPos, ...cameras], duration, skipAnimation)
 
-            const leaveEvent = new CustomEvent('slider.slide.leave', {
-                detail: { slide: curr },
+            const leaveEvent = new CustomEvent('slider.step.leave', {
+                detail: { slide: curr, inst: this },
                 bubbles: true,
                 cancelable: false,
             })
@@ -236,8 +278,9 @@ class Slider {
                 return name === hash.substring(1, hash.length);
             })[0];
             if(findSlide) {
-                const enterEvent = new CustomEvent('slider.slide.enter', {
+                const enterEvent = new CustomEvent('slider.step.enter', {
                     detail: {
+                        inst: this,
                         slide: this.steps[this.step]
                     },
                     bubbles: true,
@@ -252,8 +295,8 @@ class Slider {
                     this.step = step;
                     this.animator.animate([this.camPos, ...findSlide.cameras], findSlide.duration);
 
-                    const leaveEvent = new CustomEvent('slider.slide.leave', {
-                        detail: { slide: curr },
+                    const leaveEvent = new CustomEvent('slider.step.leave', {
+                        detail: { slide: curr, inst: this },
                         bubbles: true,
                         cancelable: false,
                     })
@@ -300,10 +343,6 @@ class Slider {
         switch(buttons) {
             case 1: {
                 this.nextSlide();
-                break;
-            }
-            case 2: {
-                this.prevSlide();
                 break;
             }
         }

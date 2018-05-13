@@ -19,8 +19,13 @@
     <div id="ressources">
         <ressource src="models/House+interior.dae" loader="collada" data-name="theroom"></ressource>
     </div>
-    <div id="slider" camera="3.5;2;5.5@3.5;0.8;3.5" css-scale="0.1;0.1;0.1">
-        <model id="theroom1" data-name="theroom" data-pos="0;0;0@-90;0;-180" scale="100;100;100"></model>
+    <skybox 
+        path="img/skybox"
+        format="png"
+        scale="100;100;100">
+    </skybox>
+    <div id="slider" camera="3.5;2;5.5@3.5;0.8;3.5" css-scale="0.1;0.1;0.1" axis="true">
+        <model id="theroom1" data-name="theroom" data-pos="0;0;10@-90;0;-180" scale="100;100;100"></model>
         <div 
             class="step"
             data-name="slide1" 
@@ -30,10 +35,10 @@
             "
             duration="1000">
             <content>
-                <substep duration="500" persistent="true">
+                <substep duration="500">
                     <h1>Aerogate</h1>
                 </substep>
-                <substep duration="500" persistent="false">
+                <substep duration="500">
                     <p>Grille d'aeration autogérée pour poêle a bois</p>
                 </substep>
             </content>
@@ -65,6 +70,19 @@
                 <div class="wrap">
                     <iframe class="frame" src="http://time.is"></iframe>
                 </div>
+            </content>
+        </div>
+
+        <div 
+            class="step" 
+            data-name="outside" 
+            data-pos="520;170;125@0;90;0" 
+            camera="
+                400;100;200@-100;100;200
+            "
+            duration="2000"
+            persistent="true">
+            <content>
             </content>
         </div>
     </div>
