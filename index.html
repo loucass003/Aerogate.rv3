@@ -24,11 +24,15 @@
         format="png"
         scale="100;100;100">
     </skybox>
+    <div id="console">
+        Pos: <span id="position"></span><br/>
+        LookAt: <span id="lookAt"></span><br/>
+    </div>
     <div id="slider" camera="3.5;2;5.5@3.5;0.8;3.5" css-scale="0.1;0.1;0.1" axis="true">
         <model id="theroom1" data-name="theroom" data-pos="0;0;10@-90;0;-180" scale="100;100;100"></model>
         <div 
             class="step"
-            data-name="slide1" 
+            data-name="title" 
             data-pos="650;200;220@0;-90;0"
             camera="
                 600;200;200@1000;100;400
@@ -44,6 +48,35 @@
             </content>
         </div>
         <div 
+            class="step"
+            data-name="problematic" 
+            data-pos="810;210;320@0;-90;0"
+            camera="
+                720;200;320@1000;200;320
+            "
+            duration="1000">
+            <content style="width: 1000px; background-color: rgba(0,0,0,0.4); padding: 15px">
+                <h1>Problèmatique</h1>
+                <substep duration="500">
+                    <p >Comment diminuer la consommation énergétique de chauffage de type poêle à bois, augmenter la sécurité et le confort des utilisateurs d'une habitation en modifiant une grille d’aération d'apport en air frais extérieure ?</p>
+                </substep>
+            </content>
+        </div>
+        <div 
+            class="step"
+            data-name="use_case" 
+            data-pos="755;185;10@0;0;0"
+            camera="
+                755;185;80@755;185;0
+            "
+            duration="1500">
+            <content>
+                <substep duration="500">
+                    <div id="Anim_utilisations"></div>
+                </substep>
+            </content>
+        </div>
+        <!-- <div 
             class="step" 
             data-name="slide2" 
             data-pos="920;120;400@0;90;0"
@@ -72,7 +105,7 @@
                 </div>
             </content>
         </div>
-
+ -->
         <div 
             class="step" 
             data-name="outside" 

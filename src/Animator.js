@@ -8,6 +8,7 @@ class Animator {
         this.slider = slider
         this.steps = slider.steps;
         this.camera = slider.camera;
+        this.controls = slider.controls;
         this.point = 0;
         this.points = [];
     }
@@ -28,7 +29,7 @@ class Animator {
                 p0.dir.y * (1 - t) + p1.dir.y * t,
                 p0.dir.z * (1 - t) + p1.dir.z * t
             );
-
+            this.lastp = p;
             this.setCamPos(p);
 
             if(t >= 1) {
@@ -59,7 +60,6 @@ class Animator {
                     })
 
                     document.dispatchEvent(event);
-
                     this.setCamPos(last);
                     this.resolve();
                     this.resolve = null
@@ -72,6 +72,7 @@ class Animator {
         this.camera.position.set(0, 0, 0).add(p.pos)
         this.camera.updateProjectionMatrix();
         this.camera.lookAt(p.dir);
+        this.controls.target.copy( p.dir );
         this.camera.updateProjectionMatrix();
         this.slider.camPos = p;
     }

@@ -18,8 +18,8 @@ export function parseCamera(str) {
     const posArr = arr[0].split(';');
     const dirArr = (arr[1] || '').split(';');
     return Position.create(
-        posArr[0].trim(), posArr[1].trim(), posArr[2].trim(),
-        dirArr[0].trim(), dirArr[1].trim(), dirArr[2].trim()
+        parseInt(posArr[0].trim()), parseInt(posArr[1].trim()), parseInt(posArr[2].trim()),
+        parseInt(dirArr[0].trim()), parseInt(dirArr[1].trim()), parseInt(dirArr[2].trim())
     );
 }
 

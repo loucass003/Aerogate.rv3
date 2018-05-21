@@ -3,6 +3,8 @@ import Loader from './Loader.js'
 import Step from './Step.js'
 import Position from './Position.js'
 import Animator from './Animator.js'
+import Console from './Console.js'
+import OrbitControls from 'orbit-controls-es6'
 import { CSS3DRenderer } from 'three-renderer-css3d';
 import { parsePos, parseCamera, parseCameras, parseScale, flatten } from './Utils.js';
 import { update } from 'es6-tween'
@@ -14,6 +16,8 @@ class Slider {
         document.addEventListener('keydown', (event) => this.onKeydown(event))
         document.addEventListener('mousedown', (event) => this.onMousedown(event));
         window.addEventListener("hashchange", () => this.onHashChange());
+
+       
 
         this.loader = new Loader();
         await this.loader.init();
@@ -35,13 +39,16 @@ class Slider {
         document.body.appendChild(this.cssRenderer.domElement);
 
         this.camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 20000);
+        this.controls = new OrbitControls(this.camera, this.cssRenderer.domElement);
+        this.controls.enabled = false;
+        
         this.scene = new THREE.Scene();
         this.cssScene = new THREE.Scene();
 
         this.ambientLight = new THREE.AmbientLight(0xcccccc, 0.4);
+        
         this.pointLight = new THREE.PointLight(0xffffff, 0.7);
         
-       
 
         this.camera.add(this.pointLight);
         this.scene.add(this.ambientLight);
@@ -62,6 +69,12 @@ class Slider {
             this.scene.add(s);
             s.rotation.setFromVector3(pos.dir);
             s.position.set(pos.pos.x,pos.pos.y,pos.pos.z);
+            s.frustumCulled = false;
+            s.traverse(function(child)
+            {
+                child.castShadow = true;
+                child.receiveShadow = true;
+            });
             if(scale)
                 s.scale.multiply(scale)
         });
@@ -69,7 +82,7 @@ class Slider {
         this.camPos = parseCamera(slider.attributes.camera.value);
         this.camera.position.set(0, 0, 0).add(this.camPos.pos);
         this.camera.lookAt(this.camPos.dir);
-
+        this.controls.update();
         this.cssScale = parseScale(slider.attributes['css-scale'].value);
 
         this.loadSkyBox();
@@ -98,34 +111,44 @@ class Slider {
             return step;
         });
 
+        this.console = new Console(this);
+
         this.animator = new Animator(this);
 
         let firstSlide = this.steps[0];
         const hash = window.location.hash;
+        console.log(hash);
         if(hash && hash.length > 0) {
             let step;
             const findSlide = this.steps.filter(({ name }, i) => {
-                step = i;
-                return name === hash.substring(1, hash.length);
+                const f = name === hash.substring(1, hash.length);
+                if(f) {
+                    step = i;
+                    return true;
+                } return false;
             })[0];
             if(findSlide) {
                 firstSlide = findSlide;
+                console.log(findSlide, step);
                 this.step = step;
             }
         }
-
        
         if(!firstSlide.persistent)
             this.cssScene.add(firstSlide.object)
         this.animator.animate([this.camPos, ...firstSlide.cameras], firstSlide.duration);
+
         this.render();
     }
 
     render(time) {
         update(time);
+      
         this.animator.render(this.step);
+        this.controls.update();
         this.cssRenderer.render(this.cssScene, this.camera);
         this.renderer.render(this.scene, this.camera);
+        this.console.render(this);
         requestAnimationFrame(this.render.bind(this));
     }
 
@@ -265,6 +288,7 @@ class Slider {
     }
     
     onHashChange() {
+        console.log(this.forceHash)
         if(this.forceHash) {
             this.forceHash = false
             return;
@@ -272,10 +296,14 @@ class Slider {
 
         const hash = window.location.hash;
         if(hash && hash.length > 0) {
+            console.log(hash)
             let step;
             const findSlide = this.steps.filter(({ name }, i) => {
-                step = i;
-                return name === hash.substring(1, hash.length);
+                const f = name === hash.substring(1, hash.length);
+                if(f) {
+                    step = i;
+                    return true;
+                } return false;
             })[0];
             if(findSlide) {
                 const enterEvent = new CustomEvent('slider.step.enter', {
@@ -319,32 +347,49 @@ class Slider {
     }
 
     onKeydown({ key, ctrlKey }) {
+        console.log(key);
         switch(key) {
             case ' ': {
-                this.nextSlide(ctrlKey);
+                if(!this.controls.enabled)
+                    this.nextSlide(ctrlKey);
                 break;
             } 
             case 'Enter': {
-                this.nextSlide(ctrlKey);
+                if(!this.controls.enabled)
+                    this.nextSlide(ctrlKey);
                 break;
             } 
             case 'ArrowLeft': {
-                this.prevSlide(ctrlKey);
+               if(!this.controls.enabled)
+                    this.prevSlide(ctrlKey);
                 break;
             } 
             case 'ArrowRight': {
-                this.nextSlide(ctrlKey);
+                if(!this.controls.enabled)
+                    this.nextSlide(ctrlKey);
                 break;
-            } 
+            }
+            case 'c': {
+                this.console.toggleDisplay();
+                break;
+            }
+            case 'p': {
+                this.controls.enabled = !this.controls.enabled;
+                if(!this.controls.enabled) {
+                    const { cameras, duration } = this.steps[this.step];
+                    this.animator.animate([this.camPos, ...cameras], duration)
+                }
+                break;
+            }
         }
     }
 
     onMousedown({ buttons }) {
         switch(buttons) {
-            case 1: {
+            /*case 1: {
                 this.nextSlide();
                 break;
-            }
+            }*/
         }
     }
 }

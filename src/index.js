@@ -16,12 +16,6 @@ document.addEventListener('slider.animation.end', (event) => {
 })*/
 
 document.addEventListener('slider.step.enter', ({ detail: { slide, inst } }) => {
-    console.log('substep.enter', slide, inst);
+    console.log('step.enter', slide, inst);
     
-  
-    if(slide.name == 'slide1') {
-        const { model: { model : object } } = inst.globalModels.filter(({ model : { name }}) => name === "theroom")[0];
-        const TOP = object.scene.children[0].children[78].children[0];
-        TOP.position.y = 5000;
-    }
 })
