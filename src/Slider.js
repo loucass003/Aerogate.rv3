@@ -388,11 +388,13 @@ class Slider {
     }
 
     onMousedown({ buttons }) {
+        if(!(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)))
+            return;
         switch(buttons) {
-            /*case 1: {
+            case 1: {
                 this.nextSlide();
                 break;
-            }*/
+            }
         }
     }
 }

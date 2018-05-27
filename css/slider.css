@@ -39,6 +39,7 @@ content {
 
 substep {
     opacity: 0;
+    display: block;
 }
 
 .load-overlay {
