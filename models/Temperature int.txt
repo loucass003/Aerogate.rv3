@@ -1,0 +1,1 @@
+Temperature int. 20 °C home more_vert

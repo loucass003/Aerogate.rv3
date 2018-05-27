@@ -90,18 +90,34 @@
             </content>
         </div>
         <div 
+            class="step"
+            data-name="modules" 
+            data-pos="810;200;320@0;-90;0"
+            camera="
+                720;200;320@1000;200;320
+            "
+            duration="1000">
+            <content style="width: 1000px; background-color: rgba(0,0,0,0.4); padding: 15px; padding-top: 0">
+                <h1 style="margin-top: 15px;">Modules</h1>
+                <substep duration="500" style="margin: 0 auto; width: 800px;">
+                    <img src="img/modules.png" style="width: 800px;">
+                </substep>
+            </content>
+        </div>
+        <div 
             class="step" 
             data-name="system_grid" 
-            data-pos="920;60;500@25.5;180;0"
+            data-pos="905;35;580@25.5;180;0"
             camera="
-                910;120;350@910;0;600
+                908;95;418@908;9;603
             "
             duration="1000" >
             <content >
-                
-                <substep duration="500" name="wire" style="width: 1400px; background-color: rgba(0,0,0,0.4); padding: 15px">
+                <substep duration="500" style="padding: 15px; font-size: 50px; margin-bottom: -70px;">
                     <h1>Grille d'aeration</h1>
-                    <div id="wire" style="width: 800px"></div>
+                </substep>
+                <substep duration="500" name="wire" style="width: 1700px; background-color: rgba(0,0,0,0.4); padding: 15px; margin: 0 auto;">
+                    <div id="wire" style="width: 1700px; margin-top: 90px;"></div>
                 </substep>
             </content>
         </div>
