@@ -1,5 +1,3 @@
-import Vue from 'vue';
-
 export default class Console {
 
     constructor(inst) {
@@ -8,6 +6,7 @@ export default class Console {
         this.toggleDisplay(this.display);
         this.pos = document.getElementById("position");
         this.lookAt = document.getElementById("lookAt");
+        this.camera = document.getElementById("camera");
     }
 
     toggleDisplay(force = !this.display) {
@@ -23,6 +22,7 @@ export default class Console {
             return;
         this.pos.innerHTML = JSON.stringify(this.inst.camera.position.clone().round());
         this.lookAt.innerHTML = JSON.stringify(this.inst.controls.target.clone().round());
+        this.camera.innerHTML = this.inst.controls.enabled ? 'Free' : 'Locked' ;
     }
 
 }

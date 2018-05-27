@@ -117,7 +117,6 @@ class Slider {
 
         let firstSlide = this.steps[0];
         const hash = window.location.hash;
-        console.log(hash);
         if(hash && hash.length > 0) {
             let step;
             const findSlide = this.steps.filter(({ name }, i) => {
@@ -129,15 +128,22 @@ class Slider {
             })[0];
             if(findSlide) {
                 firstSlide = findSlide;
-                console.log(findSlide, step);
                 this.step = step;
             }
         }
-       
-        if(!firstSlide.persistent)
-            this.cssScene.add(firstSlide.object)
-        this.animator.animate([this.camPos, ...firstSlide.cameras], firstSlide.duration);
+        
+        const enterEvent = new CustomEvent('slider.step.enter', {
+            detail: {slide: this.steps[this.step], inst: this },
+            bubbles: true,
+            cancelable: true,
+        })
 
+
+        if(document.dispatchEvent(enterEvent)) {
+            if(!firstSlide.persistent)
+                this.cssScene.add(firstSlide.object)
+            this.animator.animate([this.camPos, ...firstSlide.cameras], firstSlide.duration);
+        }
         this.render();
     }
 
@@ -288,7 +294,6 @@ class Slider {
     }
     
     onHashChange() {
-        console.log(this.forceHash)
         if(this.forceHash) {
             this.forceHash = false
             return;
@@ -296,7 +301,6 @@ class Slider {
 
         const hash = window.location.hash;
         if(hash && hash.length > 0) {
-            console.log(hash)
             let step;
             const findSlide = this.steps.filter(({ name }, i) => {
                 const f = name === hash.substring(1, hash.length);
@@ -347,7 +351,6 @@ class Slider {
     }
 
     onKeydown({ key, ctrlKey }) {
-        console.log(key);
         switch(key) {
             case ' ': {
                 if(!this.controls.enabled)
@@ -377,7 +380,7 @@ class Slider {
                 this.controls.enabled = !this.controls.enabled;
                 if(!this.controls.enabled) {
                     const { cameras, duration } = this.steps[this.step];
-                    this.animator.animate([this.camPos, ...cameras], duration)
+                    this.animator.animate([this.camPos, cameras[cameras.length-1]], duration)
                 }
                 break;
             }

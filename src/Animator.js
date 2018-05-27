@@ -72,12 +72,12 @@ class Animator {
         this.camera.position.set(0, 0, 0).add(p.pos)
         this.camera.updateProjectionMatrix();
         this.camera.lookAt(p.dir);
-        this.controls.target.copy( p.dir );
+        this.controls.target.copy(p.dir);
         this.camera.updateProjectionMatrix();
         this.slider.camPos = p;
     }
 
-    animate(points, duration, skip) {
+    animate(points, duration, skip = false) {
         this.point = 0;
         this.points = points;
         this.duration = duration;

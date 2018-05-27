@@ -27,6 +27,7 @@
     <div id="console">
         Pos: <span id="position"></span><br/>
         LookAt: <span id="lookAt"></span><br/>
+        Camera: <span id="camera"></span><br/>
     </div>
     <div id="slider" camera="3.5;2;5.5@3.5;0.8;3.5" css-scale="0.1;0.1;0.1" axis="true">
         <model id="theroom1" data-name="theroom" data-pos="0;0;10@-90;0;-180" scale="100;100;100"></model>
@@ -58,22 +59,34 @@
             <content style="width: 1000px; background-color: rgba(0,0,0,0.4); padding: 15px">
                 <h1>Problèmatique</h1>
                 <substep duration="500">
-                    <p >Comment diminuer la consommation énergétique de chauffage de type poêle à bois, augmenter la sécurité et le confort des utilisateurs d'une habitation en modifiant une grille d’aération d'apport en air frais extérieure ?</p>
+                    <p>Comment diminuer la consommation énergétique de chauffage de type poêle à bois, augmenter la sécurité et le confort des utilisateurs d'une habitation en modifiant une grille d’aération d'apport en air frais extérieure ?</p>
                 </substep>
             </content>
         </div>
         <div 
             class="step"
             data-name="use_case" 
-            data-pos="755;185;10@0;0;0"
+            data-pos="790;160;10@0;0;0"
             camera="
-                755;185;80@755;185;0
+                755;185;90@755;185;0
             "
             duration="1500">
             <content>
-                <substep duration="500">
-                    <div id="Anim_utilisations"></div>
-                </substep>
+                <h1>Cas d'utilisations</h1>
+                <div id="use_case" style="width: 1600px; transform: translate(-17%, -12%)"></div>
+            </content>
+        </div>
+        <div 
+            class="step"
+            data-name="exigences" 
+            data-pos="730;105;345@22;201;9"
+            camera="
+                683;155;245@741;91;380
+            "
+            duration="2000" >
+            <content style="width: 1400px; background-color: rgba(0,0,0,0.4); padding: 15px">
+                <h1>Exigences</h1>
+                <div id="exigences" style="width: 1700px; margin-top: -90px; margin-bottom: -100px;"></div>
             </content>
         </div>
         <!-- <div 

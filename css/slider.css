@@ -1,6 +1,7 @@
 body {
     margin: 0;
-    background-color: black
+    background-color: black;
+    -webkit-font-smoothing: antialiased;
 }
 
 * {
@@ -100,6 +101,7 @@ substep {
     padding: 0;
     overflow: hidden;
 }
+
 .frame {
     width: 1350px;
     height: 786px;
