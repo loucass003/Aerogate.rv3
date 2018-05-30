@@ -9,7 +9,6 @@ const animations = [
     new Vivus('exigences', { duration: 100, file: 'img/Exigence_short.svg' }),
     new Vivus('wire', { duration: 100, file: 'img/Grid_wire.svg' })
 ]
-
 slider.init();
 resetAnimations()
 
@@ -25,7 +24,7 @@ document.addEventListener('slider.substep.enter', ({ detail: { slide, substep: {
     if(slide.name === "system_grid" && name === "wire") {
         console.log("ok")
         const a = getAnimation('wire').play();
-    }
+    } 
 })
 
 document.addEventListener('slider.animation.end', (event) => {
