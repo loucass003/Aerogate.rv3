@@ -20,9 +20,6 @@ const config = {
 	},
 	plugins: [
 		new webpack.HotModuleReplacementPlugin(),
-		new HtmlWebpackPlugin({
-			template: path.resolve(__dirname, 'index.html')
-		})
 	],
 	module: {
 		rules: [{
