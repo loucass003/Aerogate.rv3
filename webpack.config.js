@@ -14,8 +14,8 @@ const config = {
 		hot: true
 	},
 	output: {
-		path: path.join(__dirname, "build"),
-		publicPath: '/build/',
+		path: path.join(__dirname, "dist"),
+		publicPath: '/dist/',
 		filename: 'bundle.js'
 	},
 	plugins: [
