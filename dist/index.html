@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Aerogate rv3</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="css/slider.css" rel="stylesheet">
+    <link href="css/styles/darkula.css" rel="stylesheet" />
+    <script type="text/javascript" src="lib/highlight.pack.js"></script>
+</head>
+<script>
+        var entityMap = {
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': '&quot;',
+            "'": '&#39;',
+            "/": '&#x2F;'
+            };
+        
+            function escapeHtml(string) {
+            return String(string).replace(/[&<>"'\/]/g, function (s) {
+                return entityMap[s];
+            });
+        }
+        
+        //document.addEventListener("DOMContentLoaded", init, false);
+
+        window.onload = function init() 
+        {
+            var codeblock = document.querySelectorAll("pre .html");
+                    
+            if(codeblock.length) 
+            {
+                for(var i=0, len=codeblock.length; i<len; i++) 
+                {
+                    var dom = codeblock[i];
+                    var html = dom.innerHTML;
+                    html = escapeHtml(html);
+                    dom.innerHTML = html;
+                }
+            }
+        }
+    hljs.initHighlightingOnLoad();</script>
+<body>
+    <div class="load-overlay" id="loader">
+        <div class="loading-bar"></div>
+        <div class="loading-bar"></div>
+        <div class="loading-bar"></div>
+        <div class="loading-bar"></div>
+
+        <div id="loading-text">Loading "XX": XX%</div>
+    </div>
+    <div id="ressources">
+        <ressource src="models/House+interior.dae" loader="collada" data-name="theroom"></ressource>
+    </div>
+    <skybox 
+        path="img/skybox"
+        format="png"
+        scale="100;100;100">
+    </skybox>
+    <div id="console">
+        Pos: <span id="position"></span><br/>
+        LookAt: <span id="lookAt"></span><br/>
+        Camera: <span id="camera"></span><br/>
+    </div>
+    <div id="slider" camera="3.5;2;5.5@3.5;0.8;3.5" css-scale="0.1;0.1;0.1" axis="true">
+        <model id="theroom1" data-name="theroom" data-pos="0;0;10@-90;0;-180" scale="100;100;100"></model>
+        <div 
+            class="step"
+            data-name="title" 
+            data-pos="650;200;220@0;-90;0"
+            camera="
+                600;200;200@1000;100;400
+            "
+            duration="1000">
+            <content>
+                <substep duration="500">
+                    <h1>Aerogate</h1>
+                </substep>
+                <substep duration="500">
+                    <p>Grille d'aeration autogérée pour poêle a bois</p>
+                </substep>
+            </content>
+        </div>
+        <div 
+            class="step"
+            data-name="problematic" 
+            data-pos="810;210;320@0;-90;0"
+            camera="
+                720;200;320@1000;200;320
+            "
+            duration="1000">
+            <content style="width: 1000px; background-color: rgba(0,0,0,0.4); padding: 15px">
+                <h1>Problèmatique</h1>
+                <substep duration="500">
+                    <p>Comment diminuer la consommation énergétique de chauffage de type poêle à bois, augmenter la sécurité et le confort des utilisateurs d'une habitation en modifiant une grille d’aération d'apport en air frais extérieure ?</p>
+                </substep>
+            </content>
+        </div>
+        <div 
+            class="step"
+            data-name="use_case" 
+            data-pos="790;160;10@0;0;0"
+            camera="
+                755;185;90@755;185;0
+            "
+            duration="1500">
+            <content>
+                <h1>Cas d'utilisations</h1>
+                <div id="use_case" style="width: 1600px; transform: translate(-17%, -12%)"></div>
+            </content>
+        </div>
+        <div 
+            class="step"
+            data-name="exigences" 
+            data-pos="730;105;345@22;201;9"
+            camera="
+                683;155;245@741;91;380
+            "
+            duration="2000" >
+            <content style="width: 1400px; background-color: rgba(0,0,0,0.4); padding: 15px">
+                <h1>Exigences</h1>
+                <div id="exigences" style="width: 1700px; margin-top: -90px; margin-bottom: -100px;"></div>
+            </content>
+        </div>
+        <div 
+            class="step"
+            data-name="modules" 
+            data-pos="810;200;320@0;-90;0"
+            camera="
+                720;200;320@1000;200;320
+            "
+            duration="1000">
+            <content style="width: 1000px; background-color: rgba(0,0,0,0.4); padding: 15px; padding-top: 0">
+                <h1 style="margin-top: 15px;">Modules</h1>
+                <substep duration="500" style="margin: 0 auto; width: 800px;">
+                    <img src="img/modules.png" style="width: 800px;">
+                </substep>
+            </content>
+        </div>
+        <div 
+            class="step" 
+            data-name="system_grid" 
+            data-pos="905;35;580@25.5;180;0"
+            camera="
+                908;95;418@908;9;603
+            "
+            duration="1000" >
+            <content >
+                <substep duration="500" style="padding: 15px; font-size: 50px; margin-bottom: -70px;">
+                    <h1>Grille d'aeration</h1>
+                </substep>
+                <substep duration="500" name="wire" style="width: 1700px; background-color: rgba(0,0,0,0.4); padding: 15px; margin: 0 auto;">
+                    <div id="wire" style="width: 1700px; margin-top: 90px;"></div>
+                </substep>
+            </content>
+        </div>
+        <div 
+            class="step" 
+            data-name="system_sensors" 
+            data-pos="875;75;20@0;29;0"
+            camera="
+                928;85;100@848;75;-50
+            "
+            duration="1000" >
+            <content >
+                <h1>Module Sondes</h1>
+            </content>
+        </div>
+        <div 
+            class="step" 
+            data-name="system_sensors_2" 
+            data-pos="894.25;67;9@-14;0;0"
+            camera="
+                894;75;40@894;50;-55
+            "
+            duration="1000" >
+            <content >
+                <substep duration="500" style="width: 262px; background-color: rgba(0,0,0,0.4); margin: 0 auto; padding: 2px">
+                        <img src="img/sensors_wireing_bb.png" style="width: 262px;">
+                </substep>
+            </content>
+        </div>
+        <div 
+            class="step" 
+            data-name="system_stove" 
+            data-pos="899;123;265@0;215;0"
+            camera="
+                899;163;185@974;104;297
+            "
+            duration="1000" >
+            <content >
+                <h1>Module Sondes</h1>
+            </content>
+        </div>
+        <div 
+            class="step" 
+            data-name="system_stove_2" 
+            data-pos="993;96;367@0;204;0"
+            camera="
+                943;96;247@961;96;287
+            "
+            duration="1000" >
+            <content >
+                <substep duration="500" style="width: 760px; background-color: rgba(0,0,0,0.4); margin: 0 auto; padding: 2px">
+                        <img src="img/sensors_stove_t_bb.png" style="width: 760px;">
+                </substep>
+            </content>
+        </div>
+        <div 
+            class="step" 
+            data-name="comunications" 
+            data-pos="1344;172;244@0;90;0" 
+            camera="
+                1434;169;244@1062;169;244
+            "
+            duration="2000">
+            <content>
+                <substep duration="500" style="padding: 15px; font-size: 20px; margin-bottom: -40px;">
+                    <h1>Communications</h1>
+                </substep>
+                <substep duration="500" style="width: 760px; background-color: rgba(0,0,0,0.4); margin: 0 auto; padding: 2px">
+                    <table class="numbers" style="margin: 0 auto;">
+                        <tr>
+                            <th style="color: rgb(255, 70, 70)">00</th>
+                            <th style="color: rgb(62, 131, 62)">0000</th>
+                            <th style="color: rgb(44, 44, 255)">00000000...</th>
+                        </tr>
+                        <tr>
+                            <td style="color: rgb(255, 70, 70)">ID</th>
+                            <td style="color: rgb(62, 131, 62)">COMMANDE</th>
+                            <td style="color: rgb(44, 44, 255)">VALEUR</th>
+                        </tr>
+                    </table>
+                    <div class="substep" style="text-align: center;">
+                        <h3 class="exemple">Exemple :</h3>
+                        <table class="numbers" style="margin: 0 auto;">
+                            <tr>
+                                <th style="color: rgb(255, 70, 70)">01</th>
+                                <th style="color: rgb(62, 131, 62)">0001</th>
+                                <th style="color: rgb(44, 44, 255)">10000010</th>
+                            </tr>
+                            <tr>
+                                <td style="color: rgb(255, 70, 70)">ID</th>
+                                <td style="color: rgb(62, 131, 62)">COMMANDE</th>
+                                <td style="color: rgb(44, 44, 255)">VALEUR</th>
+                            </tr>
+                            <tr class="substep">
+                                <td>1</th>
+                                <td>Temperature</th>
+                                <td>130 °C</th>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="substep" style="text-align: center">
+                        <h3 class="exemple">Norme :</h3>
+                        <div style="display: flex; justify-content: center;">
+                            <table class="normal">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>MODULE</th>
+                                </tr>
+                                <tr>
+                                    <td>00</th>
+                                    <td>Emmetteur a la grille</th>
+                                </tr>
+                                <tr>
+                                    <td>01</th>
+                                    <td>Emmetteur Poêle a bois</th>
+                                </tr>
+                                <tr>
+                                    <td>10</th>
+                                    <td>Emmetteur au mur</th>
+                                </tr>
+                            </table>
+                            <table class="normal">
+                                <tr>
+                                    <th>COMMANDE</th>
+                                    <th>ACTION</th>
+                                </tr>
+                                <tr>
+                                    <td>0000</th>
+                                    <td>Ping (aucune valeur)</th>
+                                </tr>
+                                <tr>
+                                    <td>0001</th>
+                                    <td>Temperature</th>
+                                </tr>
+                                <tr>
+                                    <td>0010</th>
+                                    <td>Taux CO</th>
+                                </tr>
+                                <tr>
+                                    <td>0011</th>
+                                    <td>Taux Fumée</th>
+                                </tr>
+                                <tr>
+                                    <td>0100</th>
+                                    <td>Angle Clapet</th>
+                                </tr>
+                                <tr>
+                                    <td>0101</th>
+                                    <td>Vitesse Ventilateur</th>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </substep>
+            </content>
+        </div>
+        <div 
+            class="step" 
+            data-name="arduino_emitter" 
+            data-pos="1125;162;254@0;90;0"
+            camera="
+                1245;162;254@0;162;220
+            "
+            duration="1000" 
+            >
+            <content >
+                <h1>Programme Emetteur arduino (Exemple): </h1>
+                <substep duration="500" name="algo" style="width: 1200px; background-color: rgba(0,0,0,0.4); margin: 0 auto; padding: 15px;">
+                    <pre style="width: 700px; display: inline-block;">
+                        <code class="c overflow">
+#include < VirtualWire.h >
+
+#define MODULE_ID 0
+
+int start_time;
+
+int log2(int x)
+{
+    int i = 31;
+    while(i >= 0 && !(x >> i))
+        --i;
+    return i + 1;
+}
+
+void toBinary(uint8_t* out, int n, int len)
+{
+    for (uint8_t i = 0; i < len; ++i)
+        out[len - 1 - i] = (n >> i) & 1;
+}
+
+int message(uint8_t* out, int id, int command, int value)
+{
+    int val_len = log2(value);
+    toBinary(out, id, 2);
+    toBinary(out + 2, command, 4);
+    toBinary(out + 6, value, val_len);
+    return 6 + val_len;
+}
+
+void setup() 
+{
+    Serial.begin(9600);
+    vw_set_tx_pin(2);
+    vw_set_ptt_inverted(true);
+    vw_setup(128);
+
+    start_time = millis();
+}
+
+void loop() 
+{
+    if(millis() - start_time > 30000) // on envoie le message toutes les 30s
+    {
+        uint8_t msg[38];
+        memset(msg, 0, 38);
+        int l = message(msg, MODULE_ID, 1, 125); // Le module 1 (Poêle) emmet une temperatrue de valeur 125°C
+        vw_send(msg, l);
+        vw_wait_tx();
+    }
+}
+                        </code>
+                    </pre>
+                    <div id="algo" style="display: inline-block; float: right; height: 600px; padding-top: 50px; transform: translate(0, 35%) scale(1.5)"></div>
+                </substep>
+            </content>
+        </div>
+        <div 
+            class="step" 
+            data-name="system_display" 
+            data-pos="544;191;164@0;30;0"
+            camera="
+                646;181;254@260;181;-198
+            "
+            duration="1000" 
+            >
+            <content >
+                <h1>Afficheur</h1>
+            </content>
+        </div>
+        <div 
+            class="step" 
+            data-name="system_display_2" 
+            data-pos="520;192;199@0;90;0"
+            camera="
+                595;170;160.2@0;170;160.2
+            "
+            duration="1000" 
+            >
+            <content >
+                <div class="wrap">
+                    <iframe class="frame" src="http://192.168.43.97:8080/"></iframe>
+                </div>
+            </content>
+        </div>
+        <div 
+            class="step" 
+            data-name="enhencements" 
+            data-pos="740;164;332@0;90;0"
+            camera="
+                803;164;332@0;164;332
+            "
+            duration="1000" 
+            >
+            <content >
+                <h1>Améliorations possibles</h1>
+            </content>
+        </div>
+      <!--   <div 
+            class="step" 
+            data-name="system_stove_2" 
+            data-pos="993;96;367@0;204;0"
+            camera="
+                943;96;247@961;96;287
+            "
+            duration="1000" 
+            persistent="true">
+            <content >
+                <iframe></iframe>
+            </content>
+        </div> -->
+        <div 
+            class="step" 
+            data-name="outside" 
+            data-pos="520;170;125@0;90;0" 
+            camera="
+                400;100;200@-100;100;200
+            "
+            duration="2000"
+            persistent="true">
+            <content>
+            </content>
+        </div>
+    </div>
+    <script src="/build/bundle.js"></script>
+</body>
+</html>
