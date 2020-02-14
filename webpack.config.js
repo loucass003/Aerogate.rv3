@@ -14,15 +14,12 @@ const config = {
 		hot: true
 	},
 	output: {
-		path: path.join(__dirname, "build"),
-		publicPath: '/build/',
+		path: path.join(__dirname, "dist"),
+		publicPath: '/dist/',
 		filename: 'bundle.js'
 	},
 	plugins: [
 		new webpack.HotModuleReplacementPlugin(),
-		new HtmlWebpackPlugin({
-			template: path.resolve(__dirname, 'index.html')
-		})
 	],
 	module: {
 		rules: [{
